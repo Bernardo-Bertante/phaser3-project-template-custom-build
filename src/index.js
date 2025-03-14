@@ -1,33 +1,33 @@
-import Phaser from './phaser-custom-sprite-loader';
+import Phaser from "phaser";
+import OpenScene from "./scenes/openScene";
+import Game from "./scenes/game";
+import PC from "./scenes/pc";
+import Page12 from "./scenes/notes12";
+import Page13 from "./scenes/notes13";
+import Page14 from "./scenes/notes14";
+import Page15 from "./scenes/notes15";
+import Page16 from "./scenes/notes16";
+import "regenerator-runtime/runtime";
 
 const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    backgroundColor: '#2d2d2d',
-    scene: {
-        preload: preload,
-        create: create
-    }
+  type: Phaser.AUTO,
+  width: window.innerWidth,
+  height: window.innerHeight,
+  scale: {
+    mode: Phaser.Scale.RESIZE,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+  },
+  autoRound: false,
+  parent: "contenedor",
+  physics: {
+    default: "arcade",
+    arcade: {
+      gravity: { y: 0 },
+      debug: false,
+    },
+  },
+  backgroundColor: "#000000",
+  scene: [Game, PC, Page12, Page13, Page14, Page15, Page16],
 };
 
 const game = new Phaser.Game(config);
-
-function preload ()
-{
-    this.load.image('logo', 'assets/logo.png');
-}
-
-function create ()
-{
-    const logo = this.add.image(400, 150, 'logo');
-
-    this.tweens.add({
-        targets: logo,
-        y: 450,
-        duration: 2000,
-        ease: 'Power2',
-        yoyo: true,
-        loop: -1
-    });
-}

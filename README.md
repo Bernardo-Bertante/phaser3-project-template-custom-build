@@ -1,184 +1,138 @@
-# Phaser 3 Webpack Project Template with custom Phaser Build
+Fluxo e Funcionalidades do Jogo
+por Bernardo Bertante Martins - Ciência da Computação
 
-A Phaser 3 project template with ES6 support via [Babel 7](https://babeljs.io/) and [Webpack 4](https://webpack.js.org/)
-that includes hot-reloading for development and production-ready builds.
+Este documento descreve de forma detalhada o fluxo de jogo e as funcionalidades implementadas até o momento, visando orientar os jogadores interessados em compreender como se dará a experiência jogável inicial. Nele, serão apresentados trechos do roteiro narrativo, explicações sobre as interações com o ambiente (PC, bloco de notas e NPCs) e referências aos elementos de ensino de programação em Python integrados à narrativa. Ao longo do documento, serão inseridos trechos do texto original e prints ilustrativos de cada etapa.
 
-Loading images via JavaScript module `import` is also supported, or are copied from the `assets` folder.
+1. Visão Geral do Jogo
 
-## Requirements
+O jogo é uma experiência de investigação narrativa, onde o jogador assume o papel de um detetive que retorna à pequena cidade onde cresceu para investigar o assassinato de uma jovem. A narrativa se desenrola através de interações com o ambiente – principalmente a interface de um computador e um bloco de notas – e diálogos com NPCs, que fornecem pistas e instruções por meio de códigos em Python.
 
-[Node.js](https://nodejs.org) is required to install dependencies and run scripts via `npm`.
+Objetivos Principais:
 
-## Available Commands
+- Investigar o assassinato da jovem.
+- Obter informações relevantes por meio de interações com NPCs, principalmente o influente Sr. Willow While.
+- Aprender, de maneira integrada à narrativa, conceitos básicos de programação em Python, como o uso da função `print("")` e estruturas de repetição (por exemplo, o `for`).
 
-| Command | Description |
-|---------|-------------|
-| `npm install` | Install project dependencies |
-| `npm start` | Build project and open web server running project |
-| `npm run build` | Builds code bundle with production settings (minification, uglification, etc..) |
+2. Estrutura Narrativa e Fluxo de Jogo
 
-## Writing Code
+2.1. Cena Inicial – Mensagem na Tela
 
-After cloning the repo, run `npm install` from your project directory. Then, you can start the local development
-server by running `npm start`.
+- Contexto:
+  Ao iniciar o jogo, o jogador se depara com uma mensagem que apresenta o contexto do caso:
+  > “Houve o assassinato de uma jovem na pequena cidade onde você, detetive, morou quando criança. Durante sua infância, você teve contato com várias pessoas desta cidade, mas o tempo passou e muitos rostos se tornaram esquecidos. Entretanto, o dono do hotel, Sr. Willow While, um homem de grande influência local, possui informações cruciais e seu número de telefone está salvo na sua agenda.”
+- Propósito:
+  A mensagem deixa claro que o primeiro passo da investigação será buscar informações com o Sr. Willow While, incentivando o jogador a explorar suas pistas e contatos.
 
-After starting the development server with `npm start`, you can edit the `src/index.js` files 
-and webpack will automatically recompile and reload your server (available at `http://localhost:8080`
-by default).
+  2.2. Primeira Interação – A Mesa do Jogador
 
-## Customizing the Template
+Após ler a mensagem, o jogador visualiza uma cena que simula sua visão ao olhar para a mesa, onde estão dispostos:
 
-### How to import a custom Phaser build
+- Um computador, com o botão de ligar piscando.
+- Um bloco de notas.
 
-If you look in the `src/index.js` file, you will see that Phaser has been imported at the top of the file:
+Esta cena introduz o ambiente interativo que o jogador irá explorar para avançar na investigação.
 
-```javascript
-import Phaser from './phaser-custom-sprite-loader';
-```
+3. Interação com o Computador
 
-Note that you do not import the _entire_ Phaser package, but rather a custom entry point that contains only the
-parts your game needs. If you open the file `phaser-custom-sprite-loader.js` you'll see the modules that have
-been exposed:
+3.1. Ligando o PC e Acessando o Chat
 
-```javascript
-require('../node_modules/phaser/src/polyfills');
+- Funcionamento:  
+  Quando o jogador clica no botão de ligar do PC, é redirecionado para uma nova cena em que o computador é mostrado “ligado”. A única funcionalidade implementada no momento é o chat.
 
-var CONST = require('../node_modules/phaser/src/const');
-var Extend = require('../node_modules/phaser/src/utils/object/Extend');
+- Mecânica do Chat:
 
-var Phaser = {
+  - O jogador pode digitar mensagens.
+  - O NPC, Sr. Willow While, responde com base no output processado pelo servidor.
+  - Importante: O servidor espera entradas em código Python. Como o jogador ainda não domina essa linguagem, a comunicação com Willow While não é efetiva neste primeiro acesso.
 
-    Cameras: {
-        Scene2D: require('../node_modules/phaser/src/cameras/2d')
-    },
-    Events: require('../node_modules/phaser/src/events/EventEmitter'),
-    Game: require('../node_modules/phaser/src/core/Game'),
-    GameObjects: {
-        DisplayList: require('../node_modules/phaser/src/gameobjects/DisplayList'),
-        UpdateList: require('../node_modules/phaser/src/gameobjects/UpdateList'),
+- Consequência:
+  Ao não conseguir se comunicar por meio do chat, o jogador precisa retornar à cena anterior (mesa com o computador e bloco de notas) para buscar mais pistas.
 
-        Image: require('../node_modules/phaser/src/gameobjects/image/Image'),
-        Sprite: require('../node_modules/phaser/src/gameobjects/sprite/Sprite'),
+4. Uso do Bloco de Notas
 
-        Factories: {
-            Image: require('../node_modules/phaser/src/gameobjects/image/ImageFactory'),
-            Sprite: require('../node_modules/phaser/src/gameobjects/sprite/SpriteFactory')
-        },
+4.1. Descoberta do Contato e a Mancha de Café
 
-        Creators: {
-            Image: require('../node_modules/phaser/src/gameobjects/image/ImageCreator'),
-            Sprite: require('../node_modules/phaser/src/gameobjects/sprite/SpriteCreator')
-        }
-    },
-    Loader: {
-        FileTypes: {
-            ImageFile: require('../node_modules/phaser/src/loader/filetypes/ImageFile')
-        },
-        LoaderPlugin: require('../node_modules/phaser/src/loader/LoaderPlugin')
-    },
-    Math: {
-        Between: require('../node_modules/phaser/src/math/Between')
-    },
-    Tweens: require('../node_modules/phaser/src/tweens')
-};
+- Primeira Ação:
+  O jogador então se lembra que inicialmente foi lhe dada a informação de que o contato do Sr. Willow está na agenda, o que leva o jogador a clicar no bloco de notas.  
+  Ao fazer isso, é exibida uma cena que mostra o bloco de notas aberto com o número do Sr. Willow While anotado, porém parcialmente ilegível devido a uma mancha de café.
 
-Phaser = Extend(false, Phaser, CONST);
+- Narrativa do Bloco de Notas:
+  Um texto na cena destaca a frustração com a mancha, explicando que, para evitar fraudes e garantir a autenticidade na comunicação, o Sr. Willow só se comunica por meio de códigos. Dessa forma, o jogador deve buscar os códigos que já estavam anotados em outra página do bloco, mas em primeiro momento, ele não precisará achar o meio o qual acessa outra página do bloco de notas.
 
-module.exports = Phaser;
-```
+  4.2. Recuperação do Código de Comunicação
 
-This file is creating a custom Phaser API bundle, so that only those APIs listed (and those required internally by them) are bundled together. This can dramatically decrease the size of your final bundle. There are several custom build entry points included in this project template. Use which-ever one you need, or take one and customise it as you see fit. Full instructions on creating custom entry points can be found below.
+- Ação do Jogador:
+  Ao “arrancar” a página manchada, o jogador revela uma nova página contendo um exemplo de código em Python:
 
-### Babel
+      print("")
 
-You can write modern ES6+ JavaScript and Babel will transpile it to a version of JavaScript that you
-want your project to support. The targeted browsers are set in the `.babelrc` file and the default currently
-targets all browsers with total usage over "0.25%" but excludes IE11 and Opera Mini.
+- Significado:
+  Essa página funciona como um tutorial básico, informando que o formato de `print("")` é o método correto para se comunicar com o NPC no chat do PC.
 
-  ```
-  "browsers": [
-    ">0.25%",
-    "not ie 11",
-    "not op_mini all"
-  ]
-  ```
+5. Comunicação com o Sr. Willow While
 
-### Webpack
+5.1. Primeira Tentativa de Conversa
 
-If you want to customize your build, such as adding a new webpack loader or plugin (i.e. for loading CSS or fonts), you can
-modify the `webpack/base.js` file for cross-project changes, or you can modify and / or create
-new configuration files and target them in specific npm tasks inside of `package.json'.
+- Experiência Inicial:
+  Convencido de que o código `print("")` é o suficiente, o jogador liga o PC e tenta uma conversa convencional com o Sr. Willow, utilizando o formato aprendido.
+- Desenvolvimento do Diálogo:
 
-## Deploying Code
+  - Inicialmente, a conversa segue normalmente.
+  - Quando o jogador aborda o tema do assassinato, o NPC responde com mensagens genéricas.
 
-After you run the `npm run build` command, your code will be built into a single bundle located at 
-`dist/bundle.min.js` along with any other assets you project depended. 
+  5.2. A Persistência Necessária e o Uso de Loop
 
-If you put the contents of the `dist` folder in a publicly-accessible location (say something like `http://mycoolserver.com`), 
-you should be able to open `http://mycoolserver.com/index.html` and play your game.
+- Desafio na Comunicação:
+  Se o jogador insiste demasiadamente com mensagens simples (vários `print()` sobre o mesmo assunto), o NPC começa a demonstrar irritação.
+- Dica do NPC:
+  Em determinado momento, o Sr. Willow menciona que o assunto já foi discutido anteriormente, numa conversa ocorrida em um encontro na cafeteria. Esse comentário serve como pista para que o jogador volte ao bloco de notas e procure por mais instruções.
+- A Instrução Secreta:  
+  Ao explorar o bloco de notas, o jogador descobre que clicando no número da página atual, ele pode avançar para a próxima página, onde encontra uma explicação de como utilizar um loop em Python, especificamente a estrutura `for`.
+- Implementação:
+  Após aprender a usar o loop, o jogador retorna ao chat e aplica o novo conhecimento (por exemplo, usando:
 
-# Creating Custom Phaser 3 Builds
+  for i in range(2):
+  print("")
 
-By default, Phaser will include pretty much everything, especially if you just require or import the main entry point. This will add 770KB of minified JavaScript to your bundle which is a considerable amount, especially if you aren't even using a large chunk of it. However, you can choose what you actually need in your bundle to a very granular degree. It just takes a little configuration to do it.
+conseguindo, assim, extrair informações mais valiosas do Sr. Willow.
 
-To create custom builds you're going to need [webpack](https://webpack.js.org/). If you've no experience with webpack it'd be best to go and learn how it works before carrying on, as Phaser is built specifically with it. Other bundlers, like Parcel, may also work but it's up to you to translate this guide into their respective formats.
+6. Evolução da Investigação e Ensino de Novos Conceitos
 
-The important thing to remember is that the Phaser module entry point, as defined in webpack, controls the whole structure of the exposed API. That is, everything it includes is made available under the Phaser namespace. It literally defines which features are included in the library. That's an important distinction you should understand: it controls what is available in the library, it's not meant as an entry point for a _project_.
+6.1. Informação sobre a Família Constantino
 
-## Building Phaser
+- Desdobramento do Caso:  
+  Após a utilização correta do loop no chat, o NPC finalmente fornece informações essenciais:
+  > “Você precisa investigar a família Constantino. A jovem assassinada teve algum envolvimento com eles ainda na infância, e eles são conhecidos por serem reservados e frios.”
+- Integração com o Bloco de Notas:  
+  Ao mencionar a família Constantino, o jogador automaticamente é direcionado para uma nova página no bloco de notas. Essa página serve para registrar as informações sobre a família e, simultaneamente, introduz o uso da palavra-chave `const` na programação.
 
-This guide is based on creating a custom build of Phaser 3.11. When newer versions ship, it'll change slightly, because more things will be available to bundle in, but the core concept will remain exactly the same.
+- Impacto no Jogo:
+  - A partir desse ponto, um novo local – a mansão da família Constantino – será desbloqueado no mapa, como parte do avanço investigativo (ainda não implementado), onde ensinará ao player sobre constantes na programação.
 
-To start with I'd recommend you [clone this template repo](https://github.com/photonstorm/phaser3-custom-build). It will save a whole bunch of time getting set-up. Clone it, then `npm install` to grab the dependencies. You're now ready to do a custom build.
+7. Conclusão e Próximos Passos
 
-If you issue the command `npm run build` (or `webpack` if you've got it available globally) from the project folder then it'll create a custom build into the `dist` folder. This file is called `phaser-custom.js`. Inside the `test` folder you'll find an `index.html` file. Open this in a browser via an http server, or with local file permissions enabled, and you should see the following:
+Este documento abrange as mecânicas implementadas até o momento, destacando:
 
-[![image](https://cascade.madmimi.com/promotion_images/6092/3212/original/custom1.png?1535988194)]()
+- Narrativa Imersiva:
+  O uso de mensagens, cenas interativas e diálogos que conduzem a investigação de um assassinato, entrelaçando a história pessoal do detetive com pistas sobre o caso.
 
-If you're wondering where on earth the Star Wars logo is coming from that's a valid question :) Let's break it down.
+- Integração de Programação:
+  A mecânica de comunicação via códigos Python (inicialmente com `print("")` e, posteriormente, com estruturas de loop e a introdução do `const`) é central para a progressão no jogo, agregando um componente educacional de forma orgânica.
 
-The webpack config in the template uses the file [phaser-custom.js](https://github.com/photonstorm/phaser3-custom-build/blob/master/phaser-custom.js) as its entry point. Here's the complete file:
+- Fluxo de Jogo Interativo:
+  A alternância entre o PC (chat) e o bloco de notas estimula o jogador a explorar o ambiente e buscar dicas, reforçando a ideia de persistência e aprendizado para obter informações valiosas dos NPCs.
 
-[![image](https://cascade.madmimi.com/promotion_images/6092/4444/original/custom2.png?1535989284)]()
+Próximos Desenvolvimentos:
 
-If you look at the file, or the above image, you'll see it defines what's available in the Phaser namespace. It starts by including the standard polyfills and CONSTs. Then it pulls in the 2D Camera system, the Events, the Game, the Graphics object and finally one Math function called Between.
+- Expansão do Mapa:
+  A implementação de novos locais, como a mansão da família Constantino, que ampliará o ambiente investigativo e trará novas mecânicas de gameplay.
 
-This is concluded by merging in the constants and exporting it globally. Combined with the webpack config this will build into the phaser-custom.js bundle which will have everything Phaser needs to run, plus the extras identified above. By default Phaser doesn't include a camera system or any Game Objects, which makes the 'base' use somewhat limited. So in this case we've added the Graphics object, because at the very least we can render something with that.
+- Aprimoramento do Sistema de Chat:  
+  Possível expansão das interações e maior profundidade na comunicação com NPCs, conforme o jogador progride no conhecimento de programação.
 
-The `GraphicsFactory` function is what allows you to use the command `this.add.graphics` from within a Scene. You could exclude this to save a couple of KB if you wish, but then you'd have to alter your code to create a Graphics instance directly and add it to the Display List.
+- Mais Elementos Educativos:
+  Integração de novos conceitos de programação que possam ser úteis tanto para a progressão do jogo quanto para o aprendizado dos jogadores.
 
-In the `test/index.html` file you'll see the code for our demo. All it does is create an 800 x 600 game instance and then renders the Star Wars logo to the Graphics object. It's not exactly a game but it demonstrates that, fundamentally, everything is working.
+---
 
-If you look in the `dist` folder you'll see that the `phaser-custom` file is 274 KB minified, or 71 KB gzipped. So, it's _significantly_ smaller than the default build that Phaser ships with.
-
-## Tweaking the Custom Build
-
-So, how do you now edit the custom build to include the ability to do something useful like load images and display them? To do this we need two extra things added to our package: Sprites and the File Loader, otherwise, we can't get the files into Phaser. Here is a tweaked version of the `phaser-custom.js` file from above. You can find this in the repo called [phaser-custom-sprite.js](https://github.com/photonstorm/phaser3-custom-build/blob/master/phaser-custom-sprite.js):
-
-[![image](https://cascade.madmimi.com/promotion_images/6092/7835/original/custom4.png?1535991630)]()
-
-If you look at the file above you'll see we've added in the Image and Sprite Game Objects (and removed Graphics) and also added the Loader module. This pulls in the entire Loader and all possible File Types, which is actually overkill for this bundle, so I'll show you how to refine that shortly. For now, though, it will do what we need. Issue the command `npm run buildsprite` and it'll build a new bundle to the `dist` folder. Launch the file `test/indexsprite.html` and you should get the following:
-
-[![image](https://cascade.madmimi.com/promotion_images/6092/7999/original/custom3.png?1535991809)]()
-
-Taa-da, working Sprites and image loading! The bundle size is now 78 KB min+gz, which is 7 KB bigger than our Graphics only bundle, but that's to be expected as we've added the whole Loader module to our build and a couple of meaty Game Objects too.
-
-Let's refine it a little bit though. We really don't need all of the file types the Loader supports. In fact, for this test, we literally only need one: the Image loader. Let's tweak our entry point so it includes only the LoaderPlugin and the Image File Type:
-
-[![image](https://cascade.madmimi.com/promotion_images/6094/9597/original/custom5.png?1536004657)]()
-
-If we re-run the build command our new minified file is 284 KB which is 19 KB less than before. It's not just about file size, though, that's less JavaScript for the browser to process when it's launching your game for the first time too.
-
-How do you know which things to include back in the entry point? You can work it out by looking at the `phaser.js` and `phaser-core.js` files in the root src folder of the main Phaser repo. Using those, plus just browsing the source folders for yourself, you can quickly find what you need.
-
-There's still quite a lot of modules being included that we may not require though. We can visualize that by creating a webpack profile. Use the command `npm run buildlog`. This will build Phaser and also create a JSON file that details the build process. You can upload this JSON file to the online [webpack analyzer](http://webpack.github.io/analyse/). I've included a json file in the repo so you can try it out for yourself. Just [download it from here](https://github.com/photonstorm/phaser3-custom-build/blob/master/webpack.build-log.json), then go to the webpack analyzer and upload it. After a short while it will generate a report. Click on 'modules' to view the module tree:
-
-[![image](https://cascade.madmimi.com/promotion_images/6095/0953/original/custom6.png?1536005428)]()
-
-All of the modules are listed below the interactive tree. Click any node on the tree to see what is requiring that module and how many dependencies it has. Let's pick a particularly busy node:
-
-[![image](https://cascade.madmimi.com/promotion_images/6095/1504/original/custom7.png?1536005667)]()
-
-As we can see, lots of modules include the entire Array Utils package. This isn't a bad thing in itself, because it's a pretty compact and widely used area of the API, but this exploration process did highlight a lot to me. If you look at the Game module you'll see it pulls in plenty of things. The Texture Manager, the Sound Manager, the Animation Manager. All the things it expects to need in order to operate. Yet, the Sound Manager is entirely optional - we could easily hide that behind a custom build flag and it'd stop including 140 KB worth of un-minified source, because if you're literally not using it, why even bother to have it in the API? The same can be said for a number of other systems, such as the Animation Manager. The Device module could be made into a much more compact version that only includes checks that Phaser needs to boot-up, too.
-
-In short, I'm quite happy that it's really easy to create a significantly smaller version of Phaser 3 with very little effort on your part. Use the custom build template and smash away parts of the API you don't need and get your games even leaner. This is especially important for Facebook Instant Games, where time-to-play needs to be as tiny as possible. Reducing your build from several hundred KB down to 70 KB certainly gets you a lot further along that path.
+Este documento serve como um guia detalhado para o funcionamento da parte jogável já implementada, garantindo que os jogadores compreendam a lógica e a progressão do jogo. Conforme novos elementos forem adicionados, o documento será atualizado para refletir as mudanças e expansões na narrativa e nas mecânicas de jogo.
